@@ -1,0 +1,32 @@
+{
+  "name": "shoresquad",
+  "version": "1.0.0",
+  "description": "Rally your crew, track weather, and hit the next beach cleanup with our dope map app!",
+  "main": "index.html",
+  "scripts": {
+    "start": "python -m http.server 5500",
+    "dev": "echo 'Use Live Server extension in VS Code: Right-click index.html > Open with Live Server'",
+    "build": "echo 'Static site — no build needed!'",
+    "test": "echo 'Test suite coming soon'"
+  },
+  "keywords": [
+    "beach",
+    "cleanup",
+    "environment",
+    "eco-action",
+    "map",
+    "community",
+    "leaflet",
+    "weather"
+  ],
+  "author": "ShoreSquad Team",
+  "license": "MIT",
+  "devDependencies": {},
+  "dependencies": {
+    "leaflet": "^1.9.4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/23019588/ShoreSquad.git"
+  }
+}

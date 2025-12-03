@@ -1,0 +1,12 @@
+{
+  "liveServer.settings.port": 5500,
+  "liveServer.settings.root": "/",
+  "liveServer.settings.wait": 200,
+  "liveServer.settings.mount": [],
+  "liveServer.settings.donotShowInfoMsg": false,
+  "liveServer.settings.ignoreFiles": [
+    ".git/**",
+    "node_modules/**",
+    "dist/**"
+  ]
+}

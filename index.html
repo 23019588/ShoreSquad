@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>ShoreSquad — Rally your crew, track weather, and hit the beach cleanup</title>
+  <meta name="description" content="Rally your crew, track weather, and hit the next beach cleanup with ShoreSquad — a dope map app for eco-action.">
+  <link rel="stylesheet" href="css/styles.css">
+  <!-- Leaflet CSS for interactive maps -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-sA+e2Yp2k6kFv3bVY3s0gk6Qb8p1K9gG1jFv2v+0iAA=" crossorigin="" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1 class="brand">🌊 ShoreSquad</h1>
+      <p class="tag">Rally your crew. Track weather. Hit the next beach cleanup.</p>
+      <nav class="nav" aria-label="Main navigation">
+        <ul>
+          <li><a href="#map">Map</a></li>
+          <li><a href="#events">Events</a></li>
+          <li><a href="#join">Join</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="container">
+        <h2 id="hero-title">Make Beach Cleanups Social, Smart, and Easy</h2>
+        <p>Plan using real-time weather and interactive maps. Invite friends. Track impact. Get stoked.</p>
+        <div class="controls">
+          <button id="create-event-btn" class="btn primary" aria-label="Create a new cleanup event">Create Cleanup</button>
+          <button id="join-btn" class="btn outline" aria-pressed="false" aria-label="Join a crew">Join Crew</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="map-area" id="map" aria-label="Interactive map and event details">
+      <div class="container map-container-wrapper">
+        <div id="map-container" class="map-container" role="region" aria-label="Map showing cleanup locations"></div>
+        <aside class="side-panel">
+          <h3>Quick Info</h3>
+          <div id="weather" class="weather-widget" aria-live="polite" aria-label="Current weather conditions">Weather: Loading...</div>
+          <h3>Upcoming Cleanups</h3>
+          <ul id="events" class="events-list" aria-label="List of upcoming cleanup events">
+            <li class="event">
+              <button class="event-btn" data-lat="1.381497" data-lon="103.955574" aria-label="Pasir Ris cleanup event">
+                📍 Pasir Ris <span class="event-date">Next Cleanup</span>
+              </button>
+            </li>
+          </ul>
+        </aside>
+      </div>
+    </section>
+
+    <section class="social-hub" id="join" aria-labelledby="social-title">
+      <div class="container">
+        <h2 id="social-title">Join the ShoreSquad Community</h2>
+        <p>Connect with eco-warriors in your area. Organize cleanups. Share impact.</p>
+        <div class="join-form">
+          <input type="email" id="email-input" placeholder="your@email.com" aria-label="Email address to join the crew">
+          <button id="join-form-btn" class="btn primary">Get In</button>
+        </div>
+        <div id="join-status" aria-live="polite" aria-label="Join status message"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <small>&copy; <span id="year"></span> ShoreSquad — Built for community beach cleanups 🌍</small>
+      <ul class="footer-links">
+        <li><a href="#privacy">Privacy</a></li>
+        <li><a href="#terms">Terms</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <!-- Load Leaflet JS (no defer so L is available for app.js) -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-o9N1jGQH6C2Q0p9rU8V+7p1gJk9Xc7p2u0qvMZo0k0I=" crossorigin=""></script>
+  <script src="js/app.js" defer></script>
+</body>
+</html>
