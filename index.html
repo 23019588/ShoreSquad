@@ -6,8 +6,6 @@
   <title>ShoreSquad — Rally your crew, track weather, and hit the beach cleanup</title>
   <meta name="description" content="Rally your crew, track weather, and hit the next beach cleanup with ShoreSquad — a dope map app for eco-action.">
   <link rel="stylesheet" href="css/styles.css">
-  <!-- Leaflet CSS for interactive maps -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-sA+e2Yp2k6kFv3bVY3s0gk6Qb8p1K9gG1jFv2v+0iAA=" crossorigin="" />
 </head>
 <body>
   <header class="site-header">
@@ -38,7 +36,17 @@
 
     <section class="map-area" id="map" aria-label="Interactive map and event details">
       <div class="container map-container-wrapper">
-        <div id="map-container" class="map-container" role="region" aria-label="Map showing cleanup locations"></div>
+        <div id="map-container" class="map-container" role="region" aria-label="Google Map showing Pasir Ris cleanup location">
+          <iframe
+            class="google-map-iframe"
+            title="Google Map — Pasir Ris Next Cleanup Location"
+            src="https://www.google.com/maps?q=1.381497,103.955574&z=15&output=embed"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            allowfullscreen=""
+            aria-label="Map showing Pasir Ris cleanup location with marker">
+          </iframe>
+        </div>
         <aside class="side-panel">
           <h3>Quick Info</h3>
           <div id="weather" class="weather-widget" aria-live="polite" aria-label="Current weather conditions">Weather: Loading...</div>
@@ -78,8 +86,6 @@
     </div>
   </footer>
 
-  <!-- Load Leaflet JS (no defer so L is available for app.js) -->
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-o9N1jGQH6C2Q0p9rU8V+7p1gJk9Xc7p2u0qvMZo0k0I=" crossorigin=""></script>
   <script src="js/app.js" defer></script>
 </body>
 </html>

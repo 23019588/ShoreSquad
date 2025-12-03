@@ -1,4 +1,4 @@
-// ShoreSquad — Interactive app with Leaflet map, weather, and event management
+// ShoreSquad — Interactive app with Google Maps embed, weather, and event management
 (function () {
   'use strict';
 
@@ -83,9 +83,7 @@
       temp: null,
       condition: null,
       lastUpdated: null
-    },
-    map: null,
-    markers: {}
+    }
   };
 
   // ============================================================================
@@ -105,88 +103,16 @@
   };
 
   // ============================================================================
-  // MAP INITIALIZATION (Leaflet)
+  // MAP INITIALIZATION (Google Maps iframe)
   // ============================================================================
 
+  /**
+   * Initialize map — Google Maps iframe is embedded in HTML, no JS initialization needed
+   */
   function initMap() {
-    if (!dom.mapContainer) return;
-
-    try {
-      // Initialize Leaflet map centered on first event (Pasir Ris)
-      const defaultLat = 1.381497;
-      const defaultLon = 103.955574;
-
-      state.map = L.map('map-container', {
-        zoomControl: true,
-        attributionControl: true,
-        zoom: 15,
-        center: [defaultLat, defaultLon]
-      });
-
-      // Add OpenStreetMap tiles (free, no API key required)
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 19,
-        attribution: '&copy; OpenStreetMap contributors',
-        crossOrigin: true
-      }).addTo(state.map);
-
-      // Add markers for all events
-      state.events.forEach(event => {
-        addEventMarker(event);
-      });
-
-      // Handle map interactions with throttle to avoid performance issues
-      const onMapMove = throttle(() => {
-        console.log('Map moved to:', state.map.getCenter());
-      }, 300);
-
-      state.map.on('move', onMapMove);
-
-      console.log('✓ Leaflet map initialized successfully');
-    } catch (error) {
-      console.error('✗ Map initialization failed:', error);
-      if (dom.mapContainer) {
-        dom.mapContainer.innerHTML = `<p style="padding: 2rem; text-align: center; color: #c33;">Map failed to load: ${error.message}</p>`;
-      }
-    }
-  }
-
-  /**
-   * Add a marker to the map for an event
-   */
-  function addEventMarker(event) {
-    if (!state.map) return;
-
-    const marker = L.marker([event.lat, event.lon], {
-      title: event.title
-    })
-      .addTo(state.map)
-      .bindPopup(`
-        <div style="text-align: center; padding: 0.5rem;">
-          <strong>${event.title}</strong><br>
-          <small>${event.description}</small><br>
-          <small>👥 ${event.attendees} attending</small>
-        </div>
-      `)
-      .openPopup();
-
-    state.markers[event.id] = marker;
-  }
-
-  /**
-   * Center map on a specific event
-   */
-  function centerMapOnEvent(eventId) {
-    const event = state.events.find(e => e.id === eventId);
-    if (!event || !state.map) return;
-
-    state.map.flyTo([event.lat, event.lon], 15, {
-      duration: 1.5
-    });
-
-    if (state.markers[eventId]) {
-      state.markers[eventId].openPopup();
-    }
+    // Google Maps iframe is already embedded in the HTML at index.html
+    // No additional JavaScript needed — the iframe loads automatically
+    console.log('✓ Google Maps iframe initialized successfully');
   }
 
   // ============================================================================
@@ -283,7 +209,9 @@
       `;
 
       button.addEventListener('click', () => {
-        centerMapOnEvent(event.id);
+        // Google Maps iframe doesn't support programmatic centering from JavaScript
+        // Users can interact directly with the embedded map
+        console.log('Event clicked:', event.title);
       }, { passive: true });
 
       li.appendChild(button);
@@ -297,9 +225,6 @@
   function addEvent(event) {
     state.events.push(event);
     renderEvents();
-    if (state.map) {
-      addEventMarker(event);
-    }
   }
 
   // ============================================================================
@@ -447,7 +372,6 @@
   window.ShoreSquad = {
     state,
     addEvent,
-    centerMapOnEvent,
     fetchWeather,
     initMap,
     debounce,
