@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>ShoreSquad — Rally your crew</title>
+  <meta name="description" content="Rally your crew, track weather, and hit the next beach cleanup with ShoreSquad">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1 class="brand">ShoreSquad</h1>
+      <p class="tag">Rally your crew, track weather, and hit the next beach cleanup</p>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero" aria-labelledby="hero-title">
+      <h2 id="hero-title">Make beach cleanups social, smart, and easy</h2>
+      <p>Plan using weather and maps. Invite friends. Track impact.</p>
+      <div class="controls">
+        <button id="create-event" class="btn primary">Create Cleanup</button>
+        <button id="join-btn" class="btn outline" aria-pressed="false">Join Crew</button>
+      </div>
+    </section>
+
+    <section class="map-area" aria-label="Map area">
+      <div id="map" class="map-placeholder" role="img" aria-label="Map showing cleanup locations">Map placeholder — initialize a map library here (Leaflet / Mapbox)</div>
+      <aside class="side-panel">
+        <div id="weather" class="weather-widget" aria-live="polite">Weather: —</div>
+        <h3>Upcoming Cleanups</h3>
+        <ul id="events" class="events-list">
+          <li class="event">No events yet — create one!</li>
+        </ul>
+      </aside>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <small>© <span id="year"></span> ShoreSquad — Built for community cleanups</small>
+    </div>
+  </footer>
+
+  <script src="js/app.js" defer></script>
+</body>
+</html>
