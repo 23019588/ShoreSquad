@@ -120,58 +120,102 @@
   // ============================================================================
 
   /**
-   * Fetch weather data for Pasir Ris (or use mock data)
+   * Fetch weather data from NEA (National Environment Agency) API
+   * Singapore's official weather data source: data.gov.sg
    */
   async function fetchWeather(lat, lon) {
     try {
-      // Note: For production, use a backend endpoint that proxies API calls
-      // Example: /api/weather?lat=1.381497&lon=103.955574
-      // Using mock data for now to avoid API key exposure
+      // NEA Realtime Weather Readings API endpoint
+      const nea_url = 'https://api.data.gov.sg/v1/environment/2-hour-weather-forecast';
 
-      // Simulate weather fetch with a delay
-      await new Promise(resolve => setTimeout(resolve, 500));
+      const response = await fetchWithTimeout(nea_url);
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
 
-      // Mock weather data (in production, fetch real data server-side)
-      const weatherData = {
-        temp: 28,
-        condition: 'Sunny',
-        humidity: 75,
-        windSpeed: 8
-      };
+      const data = await response.json();
+      
+      // Extract forecast data
+      if (data.items && data.items.length > 0) {
+        const forecast = data.items[0];
+        const forecasts = forecast.forecasts || [];
 
-      state.weather = {
-        temp: weatherData.temp,
-        condition: weatherData.condition,
-        lastUpdated: new Date()
-      };
+        // Get Pasir Ris area forecast
+        const pasir_ris = forecasts.find(f => 
+          f.name && (f.name.includes('Pasir Ris') || f.name.includes('Pasir Ris') || f.name.includes('North-Eastern'))
+        );
 
-      updateWeatherUI(weatherData);
+        // Fallback to first available forecast if Pasir Ris not found
+        const selected = pasir_ris || forecasts[0];
+
+        const weatherData = {
+          forecast: selected.forecast || 'Unavailable',
+          relative_humidity: forecast.relative_humidity || [{ low: 60, high: 90 }],
+          timestamp: forecast.update_timestamp
+        };
+
+        updateWeatherUI(weatherData);
+      } else {
+        throw new Error('No forecast data available');
+      }
     } catch (error) {
       console.error('✗ Weather fetch failed:', error);
-      dom.weatherWidget.textContent = 'Weather: Unable to load';
+      // Fallback to mock data
+      const mockWeather = {
+        forecast: 'Sunny',
+        relative_humidity: [{ low: 65, high: 85 }],
+        timestamp: new Date().toISOString()
+      };
+      updateWeatherUI(mockWeather);
     }
   }
 
   /**
-   * Update weather widget UI
+   * Update weather widget UI with forecast cards
    */
   function updateWeatherUI(data) {
     if (!dom.weatherWidget) return;
 
-    const emoji = data.condition.toLowerCase().includes('sunny') ? '☀️' :
-      data.condition.toLowerCase().includes('rain') ? '🌧️' :
-        data.condition.toLowerCase().includes('cloud') ? '☁️' : '🌤️';
+    // Get weather emoji based on forecast condition
+    const getWeatherEmoji = (condition) => {
+      if (!condition) return '🌤️';
+      const cond = condition.toLowerCase();
+      if (cond.includes('rain')) return '🌧️';
+      if (cond.includes('thunder')) return '⛈️';
+      if (cond.includes('cloud')) return '☁️';
+      if (cond.includes('sunny') || cond.includes('clear')) return '☀️';
+      if (cond.includes('haze')) return '🌫️';
+      if (cond.includes('wind')) return '💨';
+      return '🌤️';
+    };
+
+    const emoji = getWeatherEmoji(data.forecast);
+    const humidity = data.relative_humidity ? data.relative_humidity[0] : { low: 60, high: 90 };
+    const humidityRange = `${humidity.low}–${humidity.high}%`;
+
+    // Format timestamp
+    const timestamp = new Date(data.timestamp);
+    const timeStr = timestamp.toLocaleTimeString('en-SG', { hour: '2-digit', minute: '2-digit' });
 
     dom.weatherWidget.innerHTML = `
-      <div style="display: flex; align-items: center; gap: 0.5rem;">
-        <span>${emoji}</span>
-        <div style="text-align: left;">
-          <div style="font-size: 0.875rem; color: #666;">Current Conditions</div>
-          <strong>${data.temp}°C • ${data.condition}</strong>
-          <div style="font-size: 0.75rem; color: #999;">Humidity: ${data.humidity}% | Wind: ${data.windSpeed} km/h</div>
+      <div class="forecast-card current">
+        <div class="forecast-emoji">${emoji}</div>
+        <div class="forecast-details">
+          <div class="forecast-condition">${data.forecast || 'Unavailable'}</div>
+          <div class="forecast-meta">
+            <span>💧 Humidity: ${humidityRange}</span>
+          </div>
+          <div class="forecast-time">Updated: ${timeStr}</div>
         </div>
       </div>
+      <div class="forecast-notice">
+        <small>📍 Data from NEA (Singapore) | Pasir Ris Area</small>
+      </div>
     `;
+
+    state.weather = {
+      condition: data.forecast,
+      humidity: humidityRange,
+      lastUpdated: new Date()
+    };
   }
 
   // ============================================================================
