@@ -6,6 +6,8 @@
   <title>ShoreSquad — Rally your crew</title>
   <meta name="description" content="Rally your crew, track weather, and hit the next beach cleanup with ShoreSquad">
   <link rel="stylesheet" href="css/styles.css">
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-sA+e2Yp2k6kFv3bVY3s0gk6Qb8p1K9gG1jFv2v+0iAA=" crossorigin="" />
 </head>
 <body>
   <header class="site-header">
@@ -26,7 +28,7 @@
     </section>
 
     <section class="map-area" aria-label="Map area">
-      <div id="map" class="map-placeholder" role="img" aria-label="Map showing cleanup locations">Map placeholder — initialize a map library here (Leaflet / Mapbox)</div>
+      <div id="map" class="map-container" role="region" aria-label="Map showing cleanup locations"></div>
       <aside class="side-panel">
         <div id="weather" class="weather-widget" aria-live="polite">Weather: —</div>
         <h3>Upcoming Cleanups</h3>
@@ -43,6 +45,7 @@
     </div>
   </footer>
 
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-o9N1jGQH6C2Q0p9rU8V+7p1gJk9Xc7p2u0qvMZo0k0I=" crossorigin="" defer></script>
   <script src="js/app.js" defer></script>
 </body>
 </html>

@@ -22,7 +22,7 @@ html,body{height:100%;margin:0;font-family:Inter,system-ui,-apple-system,'Segoe 
 .btn.outline{background:transparent;color:var(--ocean-deep);border-color:rgba(1,58,99,0.08)}
 
 .map-area{display:grid;grid-template-columns:1fr 320px;gap:1rem;align-items:start}
-.map-placeholder{min-height:320px;background:linear-gradient(180deg,#eafaf6,#dff7f3);border-radius:8px;border:1px dashed rgba(1,58,99,0.08);display:flex;align-items:center;justify-content:center;color:var(--ocean-deep);padding:1rem}
+.map-container{min-height:420px;background:linear-gradient(180deg,#eafaf6,#dff7f3);border-radius:8px;border:1px dashed rgba(1,58,99,0.08);display:block;color:var(--ocean-deep);padding:0}
 .side-panel{background:var(--glass);padding:0.75rem;border-radius:8px}
 .weather-widget{font-weight:700;margin-bottom:0.5rem}
 .events-list{list-style:none;padding:0;margin:0}

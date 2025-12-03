@@ -41,14 +41,23 @@
     }, {passive:true});
   }
 
-  // Placeholder: initialize a map library (Leaflet/Mapbox)
+  // Initialize Leaflet map centered on Pasir Ris
   function initMap(){
-    // For production, initialize Leaflet or Mapbox GL here.
-    // Example: use Leaflet + OpenStreetMap tiles to avoid vendor lock-in.
-    // Keep heavy map init inside requestIdleCallback to avoid blocking first paint.
+    const lat = 1.381497, lon = 103.955574;
     safeIdle(()=>{
       const mapEl = document.getElementById('map');
-      if(mapEl) mapEl.textContent = 'Map ready — initialize Leaflet/Mapbox here.';
+      if(!mapEl) return;
+      // Initialize Leaflet if available
+      try{
+        const map = L.map('map', {zoomControl:true, attributionControl:true}).setView([lat, lon], 15);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          maxZoom: 19,
+          attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(map);
+        const marker = L.marker([lat, lon]).addTo(map).bindPopup('<strong>Next Cleanup</strong><br>Pasir Ris').openPopup();
+      }catch(e){
+        mapEl.textContent = 'Map failed to initialize: ' + (e && e.message);
+      }
     });
   }
 
